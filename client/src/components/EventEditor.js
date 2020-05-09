@@ -49,7 +49,7 @@ class EventEditor extends React.Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="location" className="w-100" >When</label>
-                        <DatePicker className="form-control" showTimeSelect selected={new Date(Date.parse(this.state.event.date))} onChange={this.onDateChange} />
+                        <DatePicker className="form-control" showTimeSelect dateFormat="Pp" selected={new Date(Date.parse(this.state.event.date))} onChange={this.onDateChange} />
                     </div>
                 </div>
                 <div className="modal-footer">

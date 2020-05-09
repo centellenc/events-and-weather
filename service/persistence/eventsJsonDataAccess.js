@@ -17,26 +17,29 @@ load = () => {
     }
 }
 
-valuesMatch = (filterValue, eventValue) => {
-    console.log("\nfilterValue: " + filterValue);
-    console.log("eventValue: " + eventValue);
-    console.log(eventValue.search(new RegExp(_.escapeRegExp(filterValue), "i")));
-    console.log(filterValue && (eventValue.search(new RegExp(_.escapeRegExp(filterValue), "i") > -1)));
-    return filterValue && (eventValue.search(new RegExp(_.escapeRegExp(filterValue), "i")) > -1)
+valuesMatch = (filterValue, eventValue) => !filterValue || (eventValue.search(new RegExp(_.escapeRegExp(filterValue), "i")) > -1);
+
+datesMatch = (filterIsoDate, eventIsoDate) => {
+    if (!filterIsoDate)
+        return true;
+
+    let filterDate = new Date(Date.parse(filterIsoDate));
+    let eventDate = new Date(Date.parse(eventIsoDate));
+
+    return filterDate.getDay() === eventDate.getDay()
+        && filterDate.getMonth() === eventDate.getMonth()
+        && filterDate.getFullYear() === eventDate.getFullYear();
 };
 
-propertiesMatch = (event, filters, properties) => _.some(properties, (property) => valuesMatch(filters[property], event[property]));
+propertiesMatch = (event, filters, properties) => _.every(properties, (property) => valuesMatch(filters[property], event[property]));
+datePropertiesMatch = (event, filters, properties) => _.every(properties, (property) => datesMatch(filters[property], event[property]));
 
 filter = (events, filters) => {
-    return _.filter(events, (event) => propertiesMatch(event, filters, ["location", "date"]));
+    return _.filter(events, (event) => propertiesMatch(event, filters, ["location"]) && datePropertiesMatch(event, filters, ["date"]));
 }
 
-applyLimit = (events, limit) => {
-    console.log("limit: " + limit);
-    console.log("events %o: ", events);
-   
-    return limit ? events.slice(0, limit) : events;
-}
+applyLimit = (events, limit) => limit ? events.slice(0, limit) : events;
+
 
 module.exports = {
     get: (filters, limit) =>  {

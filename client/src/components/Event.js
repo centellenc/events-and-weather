@@ -13,7 +13,7 @@ class Event extends React.Component {
             <div className="d-flex w-100 justify-content-between">
                 <div className="w-100 d-flex flex-column flex-grow-1">
                     <h5 className="mb-1 flex-grow-1">{this.props.event.title}</h5>
-                    <small><i className="far fa-clock"></i> {this.props.event.date}</small>
+                    <small><i className="far fa-clock"></i> {new Date(Date.parse(this.props.event.date)).toLocaleString()}</small>
                     <small><i className="fas fa-map-marker-alt"></i> {this.props.event.location}</small>
                 </div>
                 <div className="d-flex flex-column">

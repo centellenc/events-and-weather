@@ -1,24 +1,29 @@
-// require("es6-promise").polyfill();
-// require("isomorphic-fetch");
-
-const BASE_URL = window.BASE_URL || "/api/PackageManager/";
 
 function toJsonIfJson(text) {
     try {
-        const json = JSON.parse(text);
-        console.log("json: %o", json);
-        return json;
+        return JSON.parse(text);
     } catch(e) {
         return text;
     }
+}
+
+function composeUrlWithFilters(filters) {
+    let url = SERVICE_URL;
+    if (!filters)
+        return url;
+    if (filters.location)
+        url += "/in/" + encodeURIComponent(filters.location);
+    if (filters.date)
+        url += "/on/" + encodeURIComponent(filters.date);
+    return url;
 }
 
 const SERVICE_URL = "http://localhost:3030/events";
 
 export default class EventsService {
 
-    async get () {
-        return fetch(SERVICE_URL + "?limit=5", { method: "GET" })
+    async get (filters) {
+        return fetch(composeUrlWithFilters(filters) + "?limit=5", { method: "GET" })
         .then(res => res.text())
         .then(toJsonIfJson);
     }

@@ -1,4 +1,6 @@
 # Client
+  http://localhost:3000/
+
   npm start
     Starts the development server.
 
@@ -12,12 +14,7 @@
     Removes this tool and copies build dependencies, configuration files
     and scripts into the app directory. If you do this, you can’t go back!
 
+# Service
 
-
-service
   http://localhost:3030/
-client 
-  http://localhost:3000/
-
-
-  https://www.npmjs.com/package/diskdb
+  ./service/npm start
