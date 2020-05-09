@@ -7,8 +7,7 @@ function toJsonIfJson(text) {
     }
 }
 
-function composeUrlWithFilters(filters) {
-    let url = SERVICE_URL;
+function composeUrlWithFilters(filters, url) {
     if (!filters)
         return url;
     if (filters.location)
@@ -18,38 +17,34 @@ function composeUrlWithFilters(filters) {
     return url;
 }
 
-const SERVICE_URL = "http://localhost:3030/events";
-
 export default class EventsService {
 
+    constructor(fetch, baseUrl) {
+        this.fetch = fetch;
+        this.baseUrl = baseUrl;
+    }
+
     async get (filters) {
-        return fetch(composeUrlWithFilters(filters) + "?limit=5", { method: "GET" })
+        return this.fetch(composeUrlWithFilters(filters, this.baseUrl) + "?limit=5", { method: "GET" })
         .then(res => res.text())
         .then(toJsonIfJson);
     }
 
     async add (event) {
-        return fetch(SERVICE_URL, { method: "POST", body: JSON.stringify(event), headers: {"Content-Type": "application/json"} })
+        return this.fetch(this.baseUrl, { method: "POST", body: JSON.stringify(event), headers: {"Content-Type": "application/json"} })
         .then(res => res.text())
         .then(toJsonIfJson);
     }
 
     async update (event) {
-        return fetch(SERVICE_URL, { method: "PUT", body: JSON.stringify(event), headers: {"Content-Type": "application/json"} })
+        return this.fetch(this.baseUrl, { method: "PUT", body: JSON.stringify(event), headers: {"Content-Type": "application/json"} })
         .then(res => res.text())
         .then(toJsonIfJson);
     }
 
     async remove (eventId) {
-        return fetch(SERVICE_URL + "/" + eventId, { method: "DELETE" })
+        return this.fetch(this.baseUrl + "/" + eventId, { method: "DELETE" })
         .then(res => res.text())
         .then(toJsonIfJson);
-    }
-
-    static formatDate (s) {
-        return new Date(s).toLocaleString('en-GB', {
-            dateStyle: "short", 
-            timeStyle: "short" 
-        });
     }
 }

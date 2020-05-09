@@ -15,7 +15,7 @@ function App() {
   datePickerRegisterLocale(locale, localeDefinition)
   datePickerSetDefaultLocale(localeDefinition);
 
-  let eventsService = new EventsService();
+  let eventsService = new EventsService(window.fetch.bind(window), "http://localhost:3030/events");
 
   return (
     <div className="App">
