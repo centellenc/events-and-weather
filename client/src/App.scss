@@ -1,0 +1,33 @@
+.App {
+  max-width: 800px;
+  margin: auto;
+  margin-top: 30px;
+  padding: 10px;
+}
+
+.App-header {
+  margin: 10px;
+}
+
+.modal {
+  display: block;
+}
+
+.eaw-add-button {
+  margin-right: 22px;
+  margin-bottom: 10px;;
+}
+
+.eaw-modal-background {
+  position: fixed;  
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: powderblue;
+  opacity: 0.5;
+}
+
+.eaw-event-list-item:hover {
+  background-color: whitesmoke;
+}
