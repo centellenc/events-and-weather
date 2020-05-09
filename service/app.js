@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var eventsRouter = require('./routes/events');
 
+var eventsApp = require('./application/eventsApp');
 var eventsDataAccess = require('./persistence/eventsJsonDataAccess');
 var eventValidator = require('./businessLogic/eventValidator');
 
@@ -29,7 +30,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/events', eventsRouter.create(eventsDataAccess, eventValidator));
+
+app.use('/events', eventsRouter.create(eventsApp.create(eventsDataAccess, eventValidator)));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -8,7 +8,7 @@ import Toolbar from './Toolbar';
 class Events extends React.Component {
     constructor(props) {
         super(props);
-        validate(props, ["loadEventsFunction", "addEventFunction", "removeEventFunction", "updateEventFunction"]);
+        validate(props, ["loadEventsFunction", "addEventFunction", "deleteEventFunction", "updateEventFunction"]);
 
         this.state = {
             events: []
@@ -42,7 +42,7 @@ class Events extends React.Component {
     }
 
     onRemove = (eventToRemove) => {
-        this.props.removeEventFunction(eventToRemove.id)
+        this.props.deleteEventFunction(eventToRemove.id)
             .then((result) => console.debug(result)); 
         this.state.events.splice(this.state.events.indexOf(eventToRemove), 1);
         this.setState({events: this.state.events});        

@@ -14,20 +14,26 @@ describe("EventsService", () => {
         date: "One date"
     };
     const JSON_HEADERS = { "Content-Type": "application/json" };
-
+    const RESPONSE_1 = "response text 1";
+    var responseThen2;
+    
     var then1;
     var then2;
     var fetch;
     var eventService;
+    var fetchThenResult;
+    var fetchSecondThenResult;
 
     beforeEach(() => {
-        then2 = jest.fn((callback) => {});
-        then2.mockReturnValue({then: () => {}});
-        then1 = jest.fn();
-        then1.mockReturnValue({then: then2});
+        responseThen2 = "response text 2";
+        then2 = jest.fn((callback) => { fetchSecondThenResult = callback(responseThen2); });
+        then1 = jest.fn((callback) => { fetchThenResult = callback({text: () => RESPONSE_1}); return {then: then2}; });
+        // then1.mockReturnValue();
         fetch = jest.fn();
         fetch.mockReturnValue({then: then1});
         eventService = new EventsService(fetch, URL_1);
+        fetchThenResult = null;
+        fetchSecondThenResult = null;
     });
 
 
@@ -38,7 +44,25 @@ describe("EventsService", () => {
         // Then
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(URL_1, {body: JSON.stringify(EVENT_1), headers: JSON_HEADERS, method: "POST"});
+        expect(fetchThenResult).toBe(RESPONSE_1);
+        expect(fetchSecondThenResult).toBe(responseThen2);
     });
+
+    test('response should be parsed to an object when it is JSON', () => {
+        // Given
+        let oneObject = {a: 1, b: "2"};
+        responseThen2 = JSON.stringify(oneObject);
+
+        // When
+        eventService.add(EVENT_1);
+        
+        // Then
+        expect(fetch).toHaveBeenCalledTimes(1);
+        expect(fetch).toHaveBeenCalledWith(URL_1, {body: JSON.stringify(EVENT_1), headers: JSON_HEADERS, method: "POST"});
+        expect(fetchThenResult).toBe(RESPONSE_1);
+        expect(fetchSecondThenResult).toStrictEqual(oneObject);
+    });
+
 
     test('update should call fetch with PUT and the event in the body', () => {
         // When
@@ -47,16 +71,20 @@ describe("EventsService", () => {
         // Then
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(URL_1, {body: JSON.stringify(EVENT_1), headers: JSON_HEADERS, method: "PUT"});
+        expect(fetchThenResult).toBe(RESPONSE_1);
+        expect(fetchSecondThenResult).toBe(responseThen2);
     });
 
 
     test('remove should call fetch with DELETE and the id in the url', () => {
         // When
-        eventService.remove(EVENT_1.id);
+        eventService.delete(EVENT_1.id);
         
         // Then
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(URL_1 + "/" + EVENT_1.id, {method: "DELETE"});
+        expect(fetchThenResult).toBe(RESPONSE_1);
+        expect(fetchSecondThenResult).toBe(responseThen2);
     });
 
     describe("get", () => {
@@ -68,6 +96,8 @@ describe("EventsService", () => {
             // Then
             expect(fetch).toHaveBeenCalledTimes(1);
             expect(fetch).toHaveBeenCalledWith(URL_1 + "?limit=5", {method: "GET"});
+            expect(fetchThenResult).toBe(RESPONSE_1);
+            expect(fetchSecondThenResult).toBe(responseThen2);
         });
 
         test('should call fetch with GET and location filter when a location filter is passed', () => {

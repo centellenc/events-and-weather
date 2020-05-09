@@ -28,7 +28,7 @@ function App() {
             <Switch>
               <Route exact path="/" render={(props) => <Events 
                 loadEventsFunction={(filters) => eventsService.get(filters)} 
-                removeEventFunction={(eventId) => eventsService.remove(eventId)} 
+                deleteEventFunction={(eventId) => eventsService.delete(eventId)} 
                 addEventFunction={(event) => eventsService.add(event)}
                 updateEventFunction={(event) => eventsService.update(event)}
                 {...props} /> } />

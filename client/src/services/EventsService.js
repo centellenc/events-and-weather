@@ -42,7 +42,7 @@ export default class EventsService {
         .then(toJsonIfJson);
     }
 
-    async remove (eventId) {
+    async delete (eventId) {
         return this.fetch(this.baseUrl + "/" + eventId, { method: "DELETE" })
         .then(res => res.text())
         .then(toJsonIfJson);

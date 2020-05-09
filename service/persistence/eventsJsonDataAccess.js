@@ -56,7 +56,7 @@ module.exports = {
         events.splice(indexOfExistingEvent, 1, eventToUpdate);
         save(events);
     },
-    remove: (eventId) => {
+    delete: (eventId) => {
         let events = load();
         _.remove(events, (event) => event.id === eventId);
         save(events);
