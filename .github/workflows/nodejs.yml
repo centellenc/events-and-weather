@@ -24,9 +24,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm --prefix ./client ci
+    - run: cd ./client & npm --prefix ci
     - run: npm --prefix ./client run build --if-present
     - run: npm --prefix ./client test
-    - run: npm --prefix ./service ci
+    - run: ../service & npm --prefix ./service ci
     - run: npm --prefix ./service run build --if-present
     - run: npm --prefix ./service test
