@@ -39,11 +39,12 @@ filter = (events, filters) => {
 }
 
 applyLimit = (events, limit) => limit ? events.slice(0, limit) : events;
+sortByDate = (events) => _.sortBy(events, ["date", "title"]);
 
 
 module.exports = {
     get: (filters, limit) =>  {
-        return applyLimit(filters ? filter(load(), filters) : load(), limit);
+        return applyLimit(sortByDate(filters ? filter(load(), filters) : load()), limit);
     },
     create: (event) => {
         let events = load();

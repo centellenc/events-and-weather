@@ -18,7 +18,7 @@ function App() {
 
   const bindedFetch = window.fetch.bind(window);
   const eventsService = new EventsService(bindedFetch, "http://localhost:3030/events");
-  const weatherService = new WeatherService(bindedFetch, "http://api.openweathermap.org/data/2.5");
+  const weatherService = new WeatherService(bindedFetch, "http://api.openweathermap.org/data/2.5", "990d1688684038ff997c7cf5ffb5ad8b");
 
   return (
     <div className="App">

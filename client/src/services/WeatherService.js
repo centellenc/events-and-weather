@@ -2,9 +2,6 @@ var _ = require('lodash');
 var differenceInHours = require('date-fns/differenceInHours').default
 
 
-
-const API_KEY_QUERY_PARAMETER = "&appid=990d1688684038ff997c7cf5ffb5ad8b";
-
 const SUCCESS_CODE = "200";
 const FORECAST_INTERVAL_IN_HOURS = 3;
 function findForecastForDate(forecast, isoDate) {
@@ -16,13 +13,14 @@ function findForecastForDate(forecast, isoDate) {
 
 export default class WeatherService {
 
-    constructor(fetch, baseUrl) {
+    constructor(fetch, baseUrl, apiKey) {
         this.fetch = fetch;
         this.baseUrl = baseUrl;
+        this.apiKey = apiKey;
     }
 
     async getForecast(location, isoDate) {
-        return this.fetch(this.baseUrl + "/forecast?q=" + encodeURIComponent(location) + API_KEY_QUERY_PARAMETER, { method: "GET" })
+        return this.fetch(this.baseUrl + "/forecast?q=" + encodeURIComponent(location) + "&appid=" + this.apiKey, { method: "GET" })
         .then(res => res.json())
         .then(forecast => findForecastForDate(forecast, isoDate));
     }

@@ -34,9 +34,8 @@ class Events extends React.Component {
     onAdd = (eventToAdd) => {
         this.props.addEventFunction(eventToAdd)
             .then((result) => console.debug(result)); 
-        this.state.events.push(eventToAdd);
         this.setState({
-            events: this.state.events,
+            events: [eventToAdd].concat(this.state.events),
             adding: false
         })
     }
