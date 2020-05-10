@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var parseISO  = require('date-fns/parseISO').default
 
 valuesMatch = (filterValue, eventValue) => !filterValue || (eventValue.search(new RegExp(_.escapeRegExp(filterValue), "i")) > -1);
 propertiesMatch = (event, filters, properties) => _.every(properties, (property) => valuesMatch(filters[property], event[property]));
@@ -11,8 +12,8 @@ datesMatch = (filterIsoDate, eventIsoDate) => {
     if (!filterIsoDate)
         return true;
 
-    let filterDate = new Date(Date.parse(filterIsoDate));
-    let eventDate = new Date(Date.parse(eventIsoDate));
+    let filterDate = parseISO(filterIsoDate);
+    let eventDate = parseISO(eventIsoDate);
 
     return filterDate.getDay() === eventDate.getDay()
         && filterDate.getMonth() === eventDate.getMonth()

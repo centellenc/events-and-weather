@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { validate } from 'parameter-validator';
 import { v4 as uuidv4 } from 'uuid';
 import $ from "jquery";
+import parseISO from 'date-fns/parseISO'
 
 class EventEditor extends React.Component {
     
@@ -64,7 +65,7 @@ class EventEditor extends React.Component {
                         </div>
                         <div className="form-group">
                             <label htmlFor="location" className="w-100" >When</label>
-                            <DatePicker className="form-control" showTimeSelect dateFormat="Pp" selected={new Date(Date.parse(this.state.event.date))} onChange={this.onDateChange} />
+                            <DatePicker className="form-control" showTimeSelect dateFormat="Pp" selected={parseISO(this.state.event.date)} onChange={this.onDateChange} />
                         </div>
                     </div>
                     <div className="modal-footer">

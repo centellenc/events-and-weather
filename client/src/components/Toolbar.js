@@ -3,6 +3,7 @@ import { validate } from 'parameter-validator';
 import DatePicker from "react-datepicker";
 import Search from './Search';
 import $ from "jquery";
+import parseISO from 'date-fns/parseISO'
 
 class Toolbar extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class Toolbar extends React.Component {
                         <div className="input-group-prepend">
                             <span className="input-group-text"><i className="far fa-clock"></i></span>
                         </div>
-                        <DatePicker className="form-control" dateFormat="P" selected={this.state.searchDate && new Date(Date.parse(this.state.searchDate))} onChange={this.onDateChange} />
+                        <DatePicker className="form-control" dateFormat="P" selected={this.state.searchDate && parseISO(this.state.searchDate)} onChange={this.onDateChange} />
                         {this.state.searchDate &&
                             <div className="input-group-append">
                                 <button className="input-group-text" onClick={() => {this.setState({searchDate: null}); this.onDateChange(null); }}><i className="fas fa-times"></i></button>

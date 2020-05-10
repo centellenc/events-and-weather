@@ -1,5 +1,6 @@
 import React from 'react';
 import { validate } from 'parameter-validator';
+import parseISO from 'date-fns/parseISO'
 
 class Event extends React.Component {
 
@@ -10,15 +11,18 @@ class Event extends React.Component {
     }
     
     currentRenderedLocation = null;
+    currentRenderedDate = null;
     componentDidUpdate() {
-        if (this.props.event.location !== this.currentRenderedLocation) {
+        const event = this.props.event;
+        if (event.location !== this.currentRenderedLocation || event.date !== this.currentRenderedDate) {
             this.loadForecastIcon();
-            this.currentRenderedLocation = this.props.event.location;
+            this.currentRenderedLocation = event.location;
+            this.currentRenderedDate = event.date;
         }
     }
 
     loadForecastIcon() {
-        this.setState({weatherIconCode: null}, () => {
+        this.setState({weather: null}, () => {
             this.props.getWeatherForecastFunction(this.props.event)
             .then(forecast => {
                 if (forecast && forecast.weather && forecast.weather.length > 0)
@@ -32,7 +36,7 @@ class Event extends React.Component {
             <div className="d-flex w-100 justify-content-between">
                 <div className="w-100 d-flex flex-column flex-grow-1">
                     <h5 className="mb-1 flex-grow-1">{this.props.event.title}</h5>
-                    <small><i className="far fa-clock"></i> {new Date(Date.parse(this.props.event.date)).toLocaleString()}</small>
+                    <small><i className="far fa-clock"></i> {parseISO(this.props.event.date).toLocaleString()}</small>
                     <small><i className="fas fa-map-marker-alt"></i> {this.props.event.location}</small>
                 </div>
                 {this.state.weather && 
