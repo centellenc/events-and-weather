@@ -1,20 +1,17 @@
 # Client
-  http://localhost:3000/
+## local URL
+http://localhost:3000/
 
-  npm start
-    Starts the development server.
+## to start 
+npm start
 
-  npm run build
-    Bundles the app into static files for production.
-
-  npm test
-    Starts the test runner.
-
-  npm run eject
-    Removes this tool and copies build dependencies, configuration files
-    and scripts into the app directory. If you do this, you can’t go back!
+## wheather forectast service
+Only available for the next five days.
 
 # Service
+## local URL
+http://localhost:3030/
+## to start 
+./service/npm start
 
-  http://localhost:3030/
-  ./service/npm start
+
