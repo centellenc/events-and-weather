@@ -7,7 +7,7 @@ on:
   push:
     branches: [ more-than-two-days ]
   pull_request:
-    branches: [ events-and-weather ]
+    branches: [ more-than-two-days ]
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -47,9 +47,9 @@ jobs:
         lcov-file: ./client/coverage/lcov.info      
 
     - name: build service test coverage
-        uses: romeovs/lcov-reporter-action@v0.2.16
-        with:
-          lcov-file: ./service/coverage/lcov.info      
+      uses: romeovs/lcov-reporter-action@v0.2.16
+      with:
+        lcov-file: ./service/coverage/lcov.info      
 
     - name: build client build
       working-directory: client
