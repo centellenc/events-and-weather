@@ -55,7 +55,7 @@ class Events extends React.Component {
     onEdited = (editedEvent) => {
         this.setState({editedEvent: null});
         this.props.updateEventFunction(editedEvent)
-            .then((result) => console.debug(result)); 
+        .then((result) => console.debug(result)); 
     } 
 
     render() {
@@ -67,7 +67,7 @@ class Events extends React.Component {
                     {this.state.loading && <Loader/>}
                     <ul className="list-group">{this.state.events.map((event) =>
                         <li key={event.id} className="eaw-event-list-item list-group-item d-flex justify-content-between align-items-center" >
-                            <Event event={event} onRemove={this.onRemove} onEdit={this.onEdit}/>
+                            <Event event={event} onRemove={this.onRemove} onEdit={this.onEdit} getWeatherForecastFunction={this.props.getWeatherForecastFunction} />
                         </li>
                     )}</ul>
 

@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.scss';
-import ErrorBoundary from './components/ErrorBoundary'
-import Events from './components/Events'
-import EventsService from './services/EventsService'
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import {registerLocale as datePickerRegisterLocale, setDefaultLocale as datePickerSetDefaultLocale } from  "react-datepicker"
+import ErrorBoundary from './components/ErrorBoundary';
+import Events from './components/Events';
+import EventsService from './services/EventsService';
+import WeatherService from './services/WeatherService';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {registerLocale as datePickerRegisterLocale, setDefaultLocale as datePickerSetDefaultLocale } from  "react-datepicker";
 import getUserLocale from 'get-user-locale';
 
 
@@ -15,7 +16,9 @@ function App() {
   datePickerRegisterLocale(locale, localeDefinition)
   datePickerSetDefaultLocale(localeDefinition);
 
-  let eventsService = new EventsService(window.fetch.bind(window), "http://localhost:3030/events");
+  const bindedFetch = window.fetch.bind(window);
+  const eventsService = new EventsService(bindedFetch, "http://localhost:3030/events");
+  const weatherService = new WeatherService(bindedFetch, "http://api.openweathermap.org/data/2.5");
 
   return (
     <div className="App">
@@ -31,6 +34,7 @@ function App() {
                 deleteEventFunction={(eventId) => eventsService.delete(eventId)} 
                 addEventFunction={(event) => eventsService.add(event)}
                 updateEventFunction={(event) => eventsService.update(event)}
+                getWeatherForecastFunction={(event) => weatherService.getForecast(event.location, event.date)}
                 {...props} /> } />
             </Switch>
           </ErrorBoundary>
