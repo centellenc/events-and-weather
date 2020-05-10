@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master, events-and-weather ]
+    branches: [ more-than-two-days ]
   pull_request:
-    branches: [ master, events-and-weather ]
+    branches: [ events-and-weather ]
 
 jobs:
   build:
