@@ -157,7 +157,7 @@ function createEvents(quantity) {
         id: index,
         title: "Event " + index,
         location: "Location " + index,
-        date: new Date(2020, 1, index, 12, 0)        
+        date: new Date(2020, 1, index, 12, 0).toISOString()        
     }))
     return events;
 }

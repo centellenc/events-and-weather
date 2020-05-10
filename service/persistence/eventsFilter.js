@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var parseISO  = require('date-fns/parseISO').default
+var parseISO = require('date-fns/parseISO')
 
 valuesMatch = (filterValue, eventValue) => !filterValue || (eventValue.search(new RegExp(_.escapeRegExp(filterValue), "i")) > -1);
 propertiesMatch = (event, filters, properties) => _.every(properties, (property) => valuesMatch(filters[property], event[property]));
