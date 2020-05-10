@@ -9,7 +9,8 @@ var indexRouter = require('./routes/index');
 var eventsRouter = require('./routes/events');
 
 var eventsApp = require('./application/eventsApp');
-var eventsDataAccess = require('./persistence/eventsJsonDataAccess');
+//var eventsDataAccess = require('./persistence/eventsJsonDataAccess');
+var eventsDataAccess = require('./persistence/eventsDiskDbDataAccess');
 var eventValidator = require('./businessLogic/eventValidator');
 
 var cors = require('cors')

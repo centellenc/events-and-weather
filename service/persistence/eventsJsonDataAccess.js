@@ -1,8 +1,10 @@
 var fs = require('fs');
-var _ = require('lodash');
+var eventsFilter = require('./eventsFilter');
+
+const JSON_FILE_PATH = './persistence/storage/events.json';
 
 save = (events) => {
-    fs.writeFile('./events.json', JSON.stringify(events), function (err) {
+    fs.writeFile(JSON_FILE_PATH, JSON.stringify(events), function (err) {
         if (err)
             throw err;
       });    
@@ -10,41 +12,16 @@ save = (events) => {
 
 load = () => {
     try {
-        return JSON.parse(fs.readFileSync('./events.json'));
+        return JSON.parse(fs.readFileSync(JSON_FILE_PATH));
     } catch(e) {
         console.log("Error loading events %o", e);
         return [];
     }
 }
 
-valuesMatch = (filterValue, eventValue) => !filterValue || (eventValue.search(new RegExp(_.escapeRegExp(filterValue), "i")) > -1);
-
-datesMatch = (filterIsoDate, eventIsoDate) => {
-    if (!filterIsoDate)
-        return true;
-
-    let filterDate = new Date(Date.parse(filterIsoDate));
-    let eventDate = new Date(Date.parse(eventIsoDate));
-
-    return filterDate.getDay() === eventDate.getDay()
-        && filterDate.getMonth() === eventDate.getMonth()
-        && filterDate.getFullYear() === eventDate.getFullYear();
-};
-
-propertiesMatch = (event, filters, properties) => _.every(properties, (property) => valuesMatch(filters[property], event[property]));
-datePropertiesMatch = (event, filters, properties) => _.every(properties, (property) => datesMatch(filters[property], event[property]));
-
-filter = (events, filters) => {
-    return _.filter(events, (event) => propertiesMatch(event, filters, ["location"]) && datePropertiesMatch(event, filters, ["date"]));
-}
-
-applyLimit = (events, limit) => limit ? events.slice(0, limit) : events;
-sortByDate = (events) => _.sortBy(events, ["date", "title"]);
-
-
 module.exports = {
     get: (filters, limit) =>  {
-        return applyLimit(sortByDate(filters ? filter(load(), filters) : load()), limit);
+        return eventsFilter.for(filters, limit).apply(load());
     },
     create: (event) => {
         let events = load();
