@@ -35,11 +35,11 @@ jobs:
 
     - name: build client test
       working-directory: client
-      run: npm test --coverage
+      run: npm test -- --coverage
 
     - name: build service test
       working-directory: service
-      run: npm test --coverage
+      run: npm run test -- --coverage
 
     - name: build client test coverage
       uses: romeovs/lcov-reporter-action@v0.2.16
