@@ -41,15 +41,15 @@ jobs:
       working-directory: service
       run: npm run test -- --coverage
 
-    - name: build client test coverage
-      uses: romeovs/lcov-reporter-action@v0.2.16
-      with:
-        lcov-file: ./client/coverage/lcov.info      
+    # - name: build client test coverage
+    #   uses: romeovs/lcov-reporter-action@v0.2.16
+    #   with:
+    #     lcov-file: ./client/coverage/lcov.info      
 
-    - name: build service test coverage
-      uses: romeovs/lcov-reporter-action@v0.2.16
-      with:
-        lcov-file: ./service/coverage/lcov.info      
+    # - name: build service test coverage
+    #   uses: romeovs/lcov-reporter-action@v0.2.16
+    #   with:
+    #     lcov-file: ./service/coverage/lcov.info      
 
     # - name: build client build
     #   working-directory: client
