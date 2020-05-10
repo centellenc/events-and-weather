@@ -25,9 +25,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: build client 
-      working-directory: client
-
     - name: build client ci
       working-directory: client
       run: npm ci
